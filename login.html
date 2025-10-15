@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudify — 로그인</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .dark body {
+            background-color: #111827;
+        }
+        .login-card {
+            animation: fadeIn 0.7s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Toggle Switch */
+        .theme-switch {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            width: 48px;
+        }
+
+        .theme-switch input {
+            display:none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+        }
+        .dark .slider {
+            background-color: #4b5563;
+        }
+
+        .slider:before {
+            background-color: #fff;
+            bottom: 4px;
+            content: "";
+            height: 16px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 16px;
+        }
+
+        input:checked + .slider {
+            background-color: #3b82f6;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+    </style>
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="absolute top-5 right-5 flex items-center space-x-2">
+        <i class="fas fa-sun text-yellow-500"></i>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider round"></span>
+        </label>
+        <i class="fas fa-moon text-gray-400 dark:text-blue-300"></i>
+    </div>
+
+    <div class="login-card w-full max-w-sm p-8 space-y-8 bg-white rounded-2xl shadow-xl dark:bg-gray-800">
+        <div class="text-center">
+            <div class="flex items-center justify-center mb-4 space-x-3">
+                <i class="fas fa-cloud text-5xl text-blue-500"></i>
+                <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Cloudify</h1>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400">음악, 대화로 발견하다</p>
+        </div>
+        
+        <div class="pt-4">
+            <a href="home.html" class="w-full flex items-center justify-center py-3 px-4 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-transform transform hover:scale-105 duration-300 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600">
+                <i class="fab fa-google text-red-500 text-xl"></i>
+                <span class="ml-3 font-semibold text-gray-700 dark:text-gray-200">Google 계정으로 로그인</span>
+            </a>
+        </div>
+
+        <div class="text-center text-xs text-gray-400 pt-4 dark:text-gray-500">
+            <p>&copy; 2025 Cloudify. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+
+        // Set initial toggle state
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            themeToggle.checked = true;
+        }
+
+        themeToggle.addEventListener('change', function() {
+            // if set via local storage previously
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+
+            // if NOT set via local storage previously
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
